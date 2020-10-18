@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-
+//this is expiremental barnch
 public class DetailsActivity extends AppCompatActivity implements View.OnClickListener {
     FirebaseAuth mAuth;
     FirebaseFirestore mstore;

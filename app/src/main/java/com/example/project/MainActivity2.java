@@ -125,7 +125,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
         if(currentUser != null){
             final DocumentReference documentReference = mStore.collection("users").document(mAuth.getCurrentUser().getUid());
 
-            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if(documentSnapshot.exists()){

@@ -2,44 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LoginBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#ffff">
+    android:background="#ffff"
+    android:orientation="vertical">
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimations"
         android:layout_width="250dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
         android:layout_height="200dp"
-        app:lottie_url="https://assets2.lottiefiles.com/packages/lf20_vwCDpL.json"
-        app:lottie_autoPlay="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:transitionName="imageTransition"
-        app:lottie_loop="true"/>
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_url="https://assets2.lottiefiles.com/packages/lf20_vwCDpL.json" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome Back"
-        android:transitionName="quote"
-        android:textSize="50dp"
-        android:layout_marginTop="0dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
+        android:text="Welcome Back"
         android:textColor="#000"
+        android:textSize="50dp"
         android:textStyle="bold"
-        />
-
+        android:transitionName="quote" />
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="378dp"
         android:layout_height="351dp"
-        android:layout_marginTop="30dp"
-        android:transitionName="cardTransition"
-        android:elevation="40dp"
-        app:cardCornerRadius="30dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:elevation="40dp"
+        android:transitionName="cardTransition"
+        app:cardCornerRadius="30dp"
 
         >
 
@@ -106,10 +107,10 @@
                 android:layout_width="308dp"
                 android:layout_height="38dp"
                 android:layout_marginBottom="64dp"
-                app:backgroundTint="#000"
                 android:onClick="loginButton"
                 android:text="Login"
                 android:textSize="16sp"
+                app:backgroundTint="#000"
 
 
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -208,7 +209,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </LinearLayout>

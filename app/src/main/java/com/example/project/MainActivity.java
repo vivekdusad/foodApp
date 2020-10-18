@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -18,8 +19,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private View decorView;
     ImageView imageView;
     FirebaseAuth mAuth;
+    FirebaseFirestore mStore;
+    TextView headerName,userName;
+    DocumentReference documentReference;
 
 
 
@@ -40,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView = findViewById(R.id.settingImageView);
         imageView.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
+        mStore = FirebaseFirestore.getInstance();
+        headerName = findViewById(R.id.nameheaderID);
+        userName = findViewById(R.id.userName);
+//        userName.setText();
         decorView = getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
@@ -58,6 +71,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = mAuth.getCurrentUser();
+        documentReference = mStore.collection("users").document(mAuth.getCurrentUser().getUid());
+
     }
 
     @Override

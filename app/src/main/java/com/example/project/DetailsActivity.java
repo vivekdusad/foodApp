@@ -3,6 +3,7 @@ package com.example.project;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -63,6 +64,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(DetailsActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(DetailsActivity.this,MainActivity.class));
                         }
                         else{
                             Toast.makeText(DetailsActivity.this, "Failed Firestore", Toast.LENGTH_SHORT).show();

@@ -2,6 +2,7 @@ package com.example.project;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ import com.rilixtech.widget.countrycodepicker.CountryCodePicker;
 
 import java.util.concurrent.TimeUnit;
 
-public class OtpActivity extends AppCompatActivity implements View.OnClickListener {
+public class OtpActivity extends BasicActivity implements View.OnClickListener {
     CountryCodePicker ccp;
     EditText phoneEditText;
     FirebaseAuth mAuth;
@@ -37,6 +38,7 @@ public class OtpActivity extends AppCompatActivity implements View.OnClickListen
     String verificationId;
     PhoneAuthProvider.ForceResendingToken token;
     String otpText;
+    ConstraintLayout OtpLayout;
 
 
     @Override
@@ -51,6 +53,8 @@ public class OtpActivity extends AppCompatActivity implements View.OnClickListen
         resendTextView = findViewById(R.id.resendTextView);
         resendTextView.setOnClickListener(this);
         sendButton.setOnClickListener(this);
+        OtpLayout = findViewById(R.id.OtpLayout);
+        OtpLayout.setOnClickListener(this);
 
 
     }
@@ -68,6 +72,9 @@ public class OtpActivity extends AppCompatActivity implements View.OnClickListen
             else{
                 getPhoneEditText.setError("Invalid Phone NO.");
             }
+        }
+        else if(v.getId() == R.id.OtpLayout){
+            keyBoarDown();
         }
     }
 

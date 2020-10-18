@@ -3,6 +3,7 @@ package com.example.project;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -23,7 +24,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignupActivity extends BasicActivity implements View.OnClickListener {
     TextView textView,quotemessage;
 
     TextInputEditText emailEditText;
@@ -35,6 +36,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     String passSignup;
     ImageView imageView2;
     CardView cardView;
+    ConstraintLayout RegisterLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         quotemessage = findViewById(R.id.textView6);
         imageView2 = findViewById(R.id.imageView2);
         cardView = findViewById(R.id.cardView2);
-
+        RegisterLayout = findViewById(R.id.registerLayout);
+        RegisterLayout.setOnClickListener(this);
 
     }
 
@@ -74,6 +77,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             if(!passSignup.isEmpty()&& !emailSignup.isEmpty()) {
                 createAccount(emailSignup, passSignup);
             }
+        }
+        else if(v.getId() == R.id.registerLayout){
+            keyBoarDown();
         }
     }
     private boolean validateForm() {

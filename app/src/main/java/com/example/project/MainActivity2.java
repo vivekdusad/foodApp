@@ -37,12 +37,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.util.Pair;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -50,7 +53,7 @@ import android.widget.Toast;
 
 
 
-public class MainActivity2 extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity2 extends BasicActivity implements View.OnClickListener,View.OnKeyListener {
     public static final int REQUEST_CODE = 3001;
     private View decorView;
     ProgressBar progressBar;
@@ -68,7 +71,22 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
     FirebaseFirestore mStore;
     DocumentReference docRef;
     String userID;
+    LinearLayout loginLayout;
 
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN){
+            Toast.makeText(this, "clicked", Toast.LENGTH_SHORT).show();
+            String emailaddress = emailLogin.getText().toString();
+            String password = passwordLogin.getText().toString();
+            Toast.makeText(this, emailaddress+" "+password, Toast.LENGTH_SHORT).show();
+            if(!emailaddress.equals("")&& !password.equals("")){
+                loginUser(emailaddress,password);
+            }
+
+        }
+        return false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +101,11 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
         loginButton.setOnClickListener(this);
         emailLogin = findViewById(R.id.emailEditText);
         googleImageView = findViewById(R.id.googleImageView);
+        loginLayout = findViewById(R.id.LoginBackground);
+        loginLayout.setOnClickListener(this);
         googleImageView.setOnClickListener(this);
         passwordLogin = findViewById(R.id.passwordEditText1);
+        passwordLogin.setOnClickListener(this);
         forgetPassword = findViewById(R.id.forgetTextView);
         forgetPassword.setOnClickListener(this);
         phoneImageView = findViewById(R.id.phoneImageView);
@@ -122,21 +143,25 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(currentUser != null){
+        if(currentUser != null) {
             final DocumentReference documentReference = mStore.collection("users").document(mAuth.getCurrentUser().getUid());
-
-            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if(documentSnapshot.exists()){
-                        startActivity(new Intent(MainActivity2.this, MainActivity.class));
+            try {
+                documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            startActivity(new Intent(MainActivity2.this, MainActivity.class));
+                        } else {
+                            startActivity(new Intent(MainActivity2.this, DetailsActivity.class));
+                        }
                     }
-                    else{
-                        startActivity(new Intent(MainActivity2.this, DetailsActivity.class));
-                    }
-                }
-            });
-        }
+                });
+            }
+            catch (Exception e){
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+            }
+        
 
     }
 
@@ -200,6 +225,9 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
                 forgetPassword(email);
             }
 
+        }
+        else if(v.getId() == R.id.LoginBackground ){
+            keyBoarDown();//this will get keyBoard down
         }
     }
 

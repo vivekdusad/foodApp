@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -27,6 +29,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private DrawerLayout drawerLayout;
@@ -35,24 +40,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView imageView;
     FirebaseAuth mAuth;
     FirebaseFirestore mStore;
-    TextView headerName,userName;
+
     DocumentReference documentReference;
-
-
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_main);
+    public void initalizeUI(){
         imageView = findViewById(R.id.settingImageView);
         imageView.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
         mStore = FirebaseFirestore.getInstance();
-        headerName = findViewById(R.id.nameheaderID);
-        userName = findViewById(R.id.userName);
-//        userName.setText();
+        RecyclerView
+                ParentRecyclerViewItem
+                = findViewById(
+                R.id.parent_recyclerview);
+        LinearLayoutManager
+                layoutManager
+                = new LinearLayoutManager(
+                MainActivity.this);
+        ParentItemAdapter
+                parentItemAdapter
+                = new ParentItemAdapter(
+                ParentItemList());
+        ParentRecyclerViewItem
+                .setAdapter(parentItemAdapter);
+        ParentRecyclerViewItem
+                .setLayoutManager(layoutManager);
+
+
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         decorView = getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
@@ -71,7 +88,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        initalizeUI();
     }
+    private List<ParentItem> ParentItemList()
+    {
+        List<ParentItem> itemList
+                = new ArrayList<>();
+
+        ParentItem item
+                = new ParentItem(
+                "Title 1",
+                ChildItemList());
+        itemList.add(item);
+        ParentItem item1
+                = new ParentItem(
+                "Title 2",
+                ChildItemList());
+        itemList.add(item1);
+        ParentItem item2
+                = new ParentItem(
+                "Title 3",
+                ChildItemList());
+        itemList.add(item2);
+        ParentItem item3
+                = new ParentItem(
+                "Title 4",
+                ChildItemList());
+        itemList.add(item3);
+
+        return itemList;
+    }
+    private List<ChildItem> ChildItemList()
+    {
+        List<ChildItem> ChildItemList
+                = new ArrayList<>();
+
+        ChildItemList.add(new ChildItem("Card 1"));
+        ChildItemList.add(new ChildItem("Card 2"));
+        ChildItemList.add(new ChildItem("Card 3"));
+        ChildItemList.add(new ChildItem("Card 4"));
+
+        return ChildItemList;
+    }
+
 
     @Override
     protected void onStart() {

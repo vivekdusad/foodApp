@@ -56,7 +56,7 @@ import android.widget.Toast;
 public class MainActivity2 extends BasicActivity implements View.OnClickListener,View.OnKeyListener {
     public static final int REQUEST_CODE = 3001;
     private View decorView;
-    ProgressBar progressBar;
+
     TextView signupActivity;
     Button loginButton;
     TextInputEditText emailLogin;
@@ -111,9 +111,9 @@ public class MainActivity2 extends BasicActivity implements View.OnClickListener
         phoneImageView = findViewById(R.id.phoneImageView);
         phoneImageView.setOnClickListener(this);
         qutemessage = findViewById(R.id.textView2);
-//        userID = mAuth.getCurrentUser().getUid();
+
         mStore = FirebaseFirestore.getInstance();
-//        docRef = mStore.collection("users").document(userID);
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("926564093897-oulojsooesojad94j6pk0r4et73r98oq.apps.googleusercontent.com")
                 .requestEmail()
@@ -132,17 +132,7 @@ public class MainActivity2 extends BasicActivity implements View.OnClickListener
                 }
             }
         });
-
-
-    }
-
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(currentUser != null) {
             final DocumentReference documentReference = mStore.collection("users").document(mAuth.getCurrentUser().getUid());
             try {
@@ -160,9 +150,18 @@ public class MainActivity2 extends BasicActivity implements View.OnClickListener
             catch (Exception e){
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-            }
-        
+        }
 
+    }
+
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+               
     }
 
 

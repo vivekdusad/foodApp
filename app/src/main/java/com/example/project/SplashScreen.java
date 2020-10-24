@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -14,14 +16,24 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-//        LottieAnimationView lottieAnimationView = findViewById(R.id.deliveryAnimations);
-//        lottieAnimationView.setAnimationFromUrl("https://assets8.lottiefiles.com/private_files/lf30_ej73j8k8.json");
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser user = mAuth.getCurrentUser();
+
          new Handler().postDelayed(new Runnable(){
              @Override
              public void run() {
-                 Intent intent = new Intent(SplashScreen.this,MainActivity2.class);
-                 startActivity(intent);
-                 finish();
+                 if(user  == null) {
+                     Intent intent = new Intent(SplashScreen.this, MainActivity2.class);
+                     startActivity(intent);
+                     finish();
+                 }
+                 else{
+                     Intent intent1 = new Intent(SplashScreen.this, MainActivity.class);
+                     startActivity(intent1);
+                     finish();
+
+                 }
+
              }
          },3500);
     }

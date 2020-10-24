@@ -39,10 +39,9 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:elevation="40dp"
-        android:transitionName="cardTransition"
-        app:cardCornerRadius="30dp"
 
-        >
+        android:transitionName="cardTransition"
+        app:cardCornerRadius="30dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

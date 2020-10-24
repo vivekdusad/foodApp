@@ -87,16 +87,11 @@ public class MainActivity2 extends BasicActivity implements View.OnClickListener
         }
         return false;
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+    public void initalizeUI(){
         cardView = findViewById(R.id.cardView);
         lottieAnimationView = findViewById(R.id.lottieAnimations);
         signupActivity = findViewById(R.id.goToSignupActivity);
         signupActivity.setOnClickListener(this);
-        mAuth = FirebaseAuth.getInstance();
         loginButton= findViewById(R.id.loginButton);
         loginButton.setOnClickListener(this);
         emailLogin = findViewById(R.id.emailEditText);
@@ -111,9 +106,36 @@ public class MainActivity2 extends BasicActivity implements View.OnClickListener
         phoneImageView = findViewById(R.id.phoneImageView);
         phoneImageView.setOnClickListener(this);
         qutemessage = findViewById(R.id.textView2);
+    }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
         mStore = FirebaseFirestore.getInstance();
-
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null) {
+            final DocumentReference documentReference = mStore.collection("users").document(mAuth.getCurrentUser().getUid());
+            try {
+                documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            startActivity(new Intent(MainActivity2.this, MainActivity.class));
+                            finish();
+                        } else {
+                            startActivity(new Intent(MainActivity2.this, DetailsActivity.class));
+                            finish();
+                        }
+                    }
+                });
+            }
+            catch (Exception e){
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+        initalizeUI();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("926564093897-oulojsooesojad94j6pk0r4et73r98oq.apps.googleusercontent.com")
                 .requestEmail()
@@ -132,25 +154,7 @@ public class MainActivity2 extends BasicActivity implements View.OnClickListener
                 }
             }
         });
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null) {
-            final DocumentReference documentReference = mStore.collection("users").document(mAuth.getCurrentUser().getUid());
-            try {
-                documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            startActivity(new Intent(MainActivity2.this, MainActivity.class));
-                        } else {
-                            startActivity(new Intent(MainActivity2.this, DetailsActivity.class));
-                        }
-                    }
-                });
-            }
-            catch (Exception e){
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
+
 
     }
 

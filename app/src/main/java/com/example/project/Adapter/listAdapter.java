@@ -1,5 +1,6 @@
 package com.example.project.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.project.Model.model_rv_list;
 import com.example.project.R;
 
@@ -16,9 +18,11 @@ import java.util.List;
 
 public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> {
     List<model_rv_list> model_rv_lists;
+    private Context mContext;
 
-    public listAdapter(List<model_rv_list> model_rv_lists) {
+    public listAdapter(List<model_rv_list> model_rv_lists,Context mContext) {
         this.model_rv_lists = model_rv_lists;
+        this.mContext = mContext;
     }
 
     @NonNull
@@ -32,7 +36,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String title = model_rv_lists.get(position).getTitle();
         String body = model_rv_lists.get(position).getBody();
-        int resource = model_rv_lists.get(position).getResource();
+        String resource = model_rv_lists.get(position).getResource();
         holder.setData(title,body,resource);
 
     }
@@ -52,8 +56,8 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> {
             titleView = itemView.findViewById(R.id.titleId);
             bodyView = itemView.findViewById(R.id.bodyId);
         }
-        public void setData(String title,String body,int resource){
-            shopImageView.setImageResource(resource);
+        public void setData(String title,String body,String resource){
+            Glide.with(mContext).load(resource).into(shopImageView);
 
             titleView.setText(title);
             bodyView.setText(body);

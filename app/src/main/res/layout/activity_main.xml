@@ -27,98 +27,9 @@
         android:layout_height="match_parent"
         android:background="#F6F6F6">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="410dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/settingImageView"
-                    android:layout_width="33dp"
-                    android:layout_height="43dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="24dp"
-                    app:layout_constraintEnd_toEndOf="parent"
 
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/settings" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="122dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginEnd="108dp"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/acme"
-                    android:gravity="center_horizontal"
-                    android:text="WELCOME"
-                    android:textColor="#000"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/settingImageView"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.appcompat.widget.Toolbar>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclarView"
-            android:layout_width="413dp"
-            android:layout_height="212dp"
-            android:layout_marginTop="37dp"
-            android:background="#F6F6F6"
-            android:overScrollMode="never"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-        <EditText
-            android:id="@+id/editTextTextPersonName"
-            android:layout_width="350dp"
-            android:layout_height="42dp"
-            android:layout_marginTop="31dp"
-            android:background="@drawable/rounded_corner"
-            android:drawableEnd="@drawable/ic_baseline_search_24"
-            android:elevation="15dp"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="Search"
-            android:inputType="textPersonName"
-            android:paddingEnd="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="38dp"
-            android:layout_marginEnd="304dp"
-            android:fontFamily="@font/hammersmith_one"
-            android:text="Categories"
-            android:textColor="#000"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
-            app:layout_goneMarginBottom="15dp" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
@@ -131,28 +42,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_navigation_menu" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview2"
-            android:layout_width="match_parent"
-            android:layout_height="343dp"
-            android:layout_marginTop="2dp"
+
+        <FrameLayout
+            android:id="@+id/framelayout"
+            android:layout_width="418dp"
+            android:layout_height="786dp"
             android:layout_marginBottom="1dp"
             app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recyclarView" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:id="@+id/framelayout"
-            android:layout_height="730dp"
-            android:layout_marginTop="1dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toTopOf="parent">
 
         </FrameLayout>
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

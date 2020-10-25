@@ -2,6 +2,8 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/acme</item>
+        <item>@font/aldrich</item>
+        <item>@font/cousine</item>
         <item>@font/hammersmith_one</item>
     </array>
 </resources>

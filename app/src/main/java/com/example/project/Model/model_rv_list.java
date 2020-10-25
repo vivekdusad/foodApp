@@ -3,9 +3,9 @@ package com.example.project.Model;
 public class model_rv_list {
     private String title;
     private String body;
-    private int resource;
+    private String resource;
 
-    public model_rv_list(String title, String body, int resource) {
+    public model_rv_list(String title, String body, String resource) {
         this.title = title;
         this.body = body;
         this.resource = resource;
@@ -19,7 +19,7 @@ public class model_rv_list {
         return body;
     }
 
-    public int getResource() {
+    public String getResource() {
         return resource;
     }
 
@@ -31,7 +31,7 @@ public class model_rv_list {
         this.body = body;
     }
 
-    public void setResource(int resource) {
+    public void setResource(String resource) {
         this.resource = resource;
     }
 }

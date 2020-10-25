@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -23,8 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.Adapter.adapter_rv_menu;
 import com.example.project.Adapter.listAdapter;
+import com.example.project.Faragments.HomeFragment;
+import com.example.project.Faragments.MapsFragment;
 import com.example.project.Faragments.profileFragments;
+import com.example.project.Interface.apiInterface;
 import com.example.project.Model.Model_rv_menu;
+import com.example.project.Model.dataModel;
 import com.example.project.Model.model_rv_list;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -41,6 +46,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -50,62 +61,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView imageView;
     FirebaseAuth mAuth;
     FirebaseFirestore mStore;
-    adapter_rv_menu adapter;
-    listAdapter adapter1;
+
 
     DocumentReference documentReference;
-    public void initalizeUI(){
-        imageView = findViewById(R.id.settingImageView);
-        imageView.setOnClickListener(this);
-        mAuth = FirebaseAuth.getInstance();
-        mStore = FirebaseFirestore.getInstance();
-        RecyclerView
-                recyclerView
-                = findViewById(
-                R.id.recyclarView);
-        RecyclerView
-                recyclerView1
-                = findViewById(
-                R.id.recyclerview2);
 
-        LinearLayoutManager
-                layoutManager
-                = new LinearLayoutManager(
-                MainActivity.this);
-        LinearLayoutManager
-                layoutManager1
-                = new LinearLayoutManager(
-                MainActivity.this);
-
-        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView1.setLayoutManager(layoutManager1);
-        List<Model_rv_menu> model_rv_menus = new ArrayList<>();
-        model_rv_menus.add(new Model_rv_menu("Chinese",R.drawable.chinese));
-        model_rv_menus.add(new Model_rv_menu("Pizza",R.drawable.pizza));
-        model_rv_menus.add(new Model_rv_menu("Burger",R.drawable.burger));
-        model_rv_menus.add(new Model_rv_menu("Vegetarian",R.drawable.vegetarian));
-        model_rv_menus.add(new Model_rv_menu("Non-Vegetarian",R.drawable.chicken));
-        List<model_rv_list> model_rv_lists = new ArrayList<>();
-        model_rv_lists.add(new model_rv_list("Vivek Khandelwal","This is a startUp by Vivek khandelwal and Ayush Sunariya",R.drawable.eatery));
-        model_rv_lists.add(new model_rv_list("Vivek Khandelwal","This is a startUp by Vivek khandelwal and Ayush Sunariya",R.drawable.eatery));
-        model_rv_lists.add(new model_rv_list("Vivek Khandelwal","This is a startUp by Vivek khandelwal and Ayush Sunariya",R.drawable.eatery));
-        model_rv_lists.add(new model_rv_list("Vivek Khandelwal","This is a startUp by Vivek khandelwal and Ayush Sunariya",R.drawable.eatery));
-        adapter = new adapter_rv_menu(model_rv_menus);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        adapter1 = new listAdapter(model_rv_lists);
-        recyclerView1.setAdapter(adapter1);
-        adapter1.notifyDataSetChanged();
-
-
-
-
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+
+        mAuth = FirebaseAuth.getInstance();
+        mStore = FirebaseFirestore.getInstance();
         decorView = getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
@@ -116,17 +84,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         drawerLayout =(DrawerLayout) findViewById(R.id.drawerLayout);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
-
-        toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
+        toggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        initalizeUI();
+
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(this);
+        Fragment fragment1 = new HomeFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.framelayout, fragment1)
+                .commit();
+
     }
 
 
@@ -164,13 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
     }
 
-    @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.settingImageView){
-            Intent intent = new Intent(MainActivity.this,SettingsActivity.class);
-            startActivity(intent);
-        }
-    }
+
     public void logout(View v){
         FirebaseAuth.getInstance().signOut();
         GoogleSignIn.getClient(this,new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()).signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -191,7 +155,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(item.getItemId() == R.id.page_3){
             fragment = new profileFragments();
 
-
+        }
+        else if(item.getItemId() == R.id.page_1){
+            fragment = new HomeFragment();
+        }
+        else if(item.getItemId() == R.id.page_2){
+            fragment = new MapsFragment();
 
         }
         return loadFragment(fragment);
@@ -206,5 +175,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }

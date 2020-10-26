@@ -42,6 +42,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle ;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView imageView;
     FirebaseAuth mAuth;
     FirebaseFirestore mStore;
+    ChipNavigationBar navigation;
 
 
     DocumentReference documentReference;
@@ -89,8 +91,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
-        navigation.setOnNavigationItemSelectedListener(this);
+//        BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
+         navigation = findViewById(R.id.bottom_navigation);
+//        navigation.setOnNavigationItemSelectedListener(this);
+        bottomMenu();
         Fragment fragment1 = new HomeFragment();
         getSupportFragmentManager()
                 .beginTransaction()
@@ -99,7 +103,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void bottomMenu() {
+        navigation.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int i) {
+                Fragment fragment = null;
+                if(i == R.id.page_3){
+                    fragment = new profileFragments();
 
+                }
+                else if(i == R.id.page_1){
+                    fragment = new HomeFragment();
+                }
+                else if(i == R.id.page_2){
+                    fragment = new MapsFragment();
+
+                }
+                loadFragment(fragment);
+
+            }
+        });
+    }
 
 
     @Override
@@ -149,22 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Fragment fragment = null;
-        if(item.getItemId() == R.id.page_3){
-            fragment = new profileFragments();
 
-        }
-        else if(item.getItemId() == R.id.page_1){
-            fragment = new HomeFragment();
-        }
-        else if(item.getItemId() == R.id.page_2){
-            fragment = new MapsFragment();
-
-        }
-        return loadFragment(fragment);
-    }
     private boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
